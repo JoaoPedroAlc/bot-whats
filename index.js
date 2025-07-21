@@ -6,10 +6,12 @@ const { exec } = require('child_process');
 const ExcelJS = require('exceljs');
 
 
+  
+
 const client = new Client({
     authStrategy: new LocalAuth({ dataPath: './sessao-bot' }),
     puppeteer: {
-        headless: false,
+        headless: true,
         args: ['--no-sandbox']
     }
 });
