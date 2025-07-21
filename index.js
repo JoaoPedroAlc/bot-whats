@@ -5,6 +5,13 @@ const path = require('path');
 const { exec } = require('child_process');
 const ExcelJS = require('exceljs');
 
+const qrcode = require('qrcode-terminal');
+
+client.on('qr', (qr) => {
+    console.log('Gerando QR Code...');
+    qrcode.generate(qr, { small: true }); // isso exibe no terminal em boa qualidade
+});
+
 
   
 
@@ -12,7 +19,7 @@ const client = new Client({
     authStrategy: new LocalAuth({ dataPath: './sessao-bot' }),
     puppeteer: {
         headless: true,
-        args: ['--no-sandbox']
+        args: ['--no-sandbox', '--disable-setuid-sandbox']
     }
 });
 
@@ -578,10 +585,7 @@ function salvarRanking() {
     fs.writeFileSync(RANKING_FILE, JSON.stringify(rankingCache, null, 2));
 }
 
-client.on('qr', qr => {
-    console.log('📱 Escaneie este QR Code para conectar:');
-    qrcode.generate(qr, { small: true });
-});
+
 
 client.on('auth_failure', msg => {
     console.error('❌ Falha na autenticação:', msg);
